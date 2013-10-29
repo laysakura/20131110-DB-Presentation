@@ -9,22 +9,21 @@
  * GLOBAL STYLES
  *********************************************/
 body {
-  background-image: url("../../img/cloth-bg.jpg");
 }
-
 .reveal {
-  font-family: "Open Sans", sans-serif;
-  font-size: 36px;
-  font-weight: 200;
-  letter-spacing: -0.02em;
-  color: #333333;
-  background-color: #eeeeee;
+  font-family      : "Open Sans", sans-serif;
+  font-size        : 36px;
+  font-weight      : 200;
+  letter-spacing   : 0em;
+  color            : #000;
+  background-color : #eeeeee;
+  background-image : url("../../img/cloth-bg.jpg");
 }
-
 ::selection {
-  color: white;
-  background: #134674;
-  text-shadow: none;
+    background-color: rgba(255, 0, 0, 0.3);
+}
+::-moz-selection {
+    background-color: rgba(255, 0, 0, 0.3);
 }
 
 /*********************************************
@@ -44,34 +43,41 @@ body {
   text-transform: uppercase;
   text-shadow: none;
 }
-
 .reveal h1 {
-  text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+    font-size: 250%;
 }
 
 
 /*********************************************
  * LINKS
  *********************************************/
-.reveal a:not(.image), a:not(.image) {
-  color: #cf1e26;
-  text-decoration: none;
-  -webkit-transition: color .15s ease;
-  -moz-transition: color .15s ease;
-  -ms-transition: color .15s ease;
-  -o-transition: color .15s ease;
-  transition: color .15s ease;
+a {
+    color               : #d7523d;
+    text-decoration     : none;
+    border-bottom       : 1px solid #f8b4a8;
+    transition-property : all;
+    transition          : 0.2s linear;
+}
+a:visited {
+    color: #c10020;
+}
+a:hover {
+    background-color : #d7523d;
+    color            : #ffffff;
+    border-bottom    : none;
+    border-radius    : 4px;
+}
+a:hover:visited {
+    background-color : #c10020;
+    border-radius    : 4px;
 }
 
-.reveal a:not(.image):hover, a:not(.image):hover {
-  color: #74a7cb;
-  text-shadow: none;
-  border: none;
-}
-
-.reveal .roll span:after {
-  color: #fff;
-  background: #264c66;
+/*********************************************
+ * LISTS
+ *********************************************/
+.reveal ul li {
+    list-style-type : disc;
+    margin: 0.2em 0 0.2em 0;
 }
 
 /*********************************************
@@ -159,17 +165,17 @@ body {
 
 
 footer{
-  clear:both; 
-  font-size:13px; 
-  height:57px; 
-  display:block; 
-  position:absolute; 
-  bottom:0; 
+  clear:both;
+  font-size:13px;
+  height:57px;
+  display:block;
+  position:absolute;
+  bottom:0;
   width: 100%;
 }
 
 footer div{
-  margin:0 auto; 
+  margin:0 auto;
   text-align: center;
 }
 
@@ -186,16 +192,13 @@ ul.inline-list li{
   float:left;
   clear: none;
   width: 168px;
+  list-style-type: none;
 }
 
 
 ul.inline-list img{
   vertical-align: text-top;
   height: 113px;
-}
-
-.samurai-red {
-  color: #cf1e26;
 }
 
 ul.inline-list-logo {
@@ -228,6 +231,6 @@ ul.inline-list-logo img.liup{
 
 small.liup{
   color: #8ea608;
-  font-size: 15px; 
+  font-size: 15px;
   margin-top:10px
 }
