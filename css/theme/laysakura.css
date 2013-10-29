@@ -104,40 +104,58 @@ a:hover:visited {
 /*********************************************
  * NAVIGATION CONTROLS
  *********************************************/
+.reveal .controls {
+    left   : 10px;
+    bottom : 10px;
+}
 .reveal .controls div.navigate-left,
 .reveal .controls div.navigate-left.enabled {
-  border-right-color: #cf1e26;
+    border-right-color: #d7523d;
 }
-
 .reveal .controls div.navigate-right,
 .reveal .controls div.navigate-right.enabled {
-  border-left-color: #cf1e26;
+    border-left-color: #d7523d;
 }
-
 .reveal .controls div.navigate-up,
 .reveal .controls div.navigate-up.enabled {
-  border-bottom-color: #cf1e26;
+    border-bottom-color: #d7523d;
 }
-
 .reveal .controls div.navigate-down,
 .reveal .controls div.navigate-down.enabled {
-  border-top-color: #cf1e26;
+    border-top-color: #d7523d;
 }
 
 .reveal .controls div.navigate-left.enabled:hover {
-  border-right-color: #c4363c;
+    -webkit-animation-name            : pulse;
+    -webkit-animation-duration        : 0.3s;
+    -webkit-animation-iteration-count : infinite;
+    -webkit-animation-timing-function : ease-in-out;
+    -webkit-animation-direction       : alternate;
+    -webkit-animation-delay           : 0s;
 }
-
 .reveal .controls div.navigate-right.enabled:hover {
-  border-left-color: #c4363c;
+    -webkit-animation-name            : pulse;
+    -webkit-animation-duration        : 0.3s;
+    -webkit-animation-iteration-count : infinite;
+    -webkit-animation-timing-function : ease-in-out;
+    -webkit-animation-direction       : alternate;
+    -webkit-animation-delay           : 0s;
 }
-
 .reveal .controls div.navigate-up.enabled:hover {
-  border-bottom-color: #c4363c;
+    -webkit-animation-name            : pulse;
+    -webkit-animation-duration        : 0.3s;
+    -webkit-animation-iteration-count : infinite;
+    -webkit-animation-timing-function : ease-in-out;
+    -webkit-animation-direction       : alternate;
+    -webkit-animation-delay           : 0s;
 }
-
 .reveal .controls div.navigate-down.enabled:hover {
-  border-top-color: #c4363c;
+    -webkit-animation-name            : pulse;
+    -webkit-animation-duration        : 0.3s;
+    -webkit-animation-iteration-count : infinite;
+    -webkit-animation-timing-function : ease-in-out;
+    -webkit-animation-direction       : alternate;
+    -webkit-animation-delay           : 0s;
 }
 
 /*********************************************
@@ -162,34 +180,62 @@ a:hover:visited {
     margin-bottom: 10px;
 }
 
-
-
-footer{
-  clear:both;
-  font-size:13px;
-  height:57px;
-  display:block;
-  position:absolute;
-  bottom:0;
-  width: 100%;
+/*********************************************
+ * FOOTER
+ *********************************************/
+footer {
+    clear     : both;
+    font-size : 120%;
+    height    : 57px;
+    display   : block;
+    position  : absolute;
+    bottom    : 0;
+    width     : 100%;
+}
+footer div {
+    margin     : 0 auto;
+    text-align : center;
+}
+footer .slidenumber {
+    margin              : -60px 15px 0 auto;
+    padding             : 40px 20px 0px 20px;
+    height              : 57px;
+    width               : 57px;
+    border-radius       : 100%;
+    background-color    : #d7523d;
+    opacity             : 0.8;
+    color               : #ffffff;
 }
 
-footer div{
-  margin:0 auto;
-  text-align: center;
+/*********************************************
+ * DECORATION
+ *********************************************/
+@-webkit-keyframes pulse {
+    from {
+        opacity: 1.0;
+    }
+    to {
+        opacity: 0.2;
+    }
+}
+.blinking {
+    -webkit-animation-name            : pulse;
+    -webkit-animation-duration        : 0.3s;
+    -webkit-animation-iteration-count : infinite;
+    -webkit-animation-timing-function : ease-in-out;
+    -webkit-animation-direction       : alternate;
+    -webkit-animation-delay           : 0s;
 }
 
-footer div img{
-  vertical-align: -15px;
-}
 
+/**/
 ul.inline-list{
   list-style: none;
   display: block;
 }
 
 ul.inline-list li{
-  float:left;
+  float: left;
   clear: none;
   width: 168px;
   list-style-type: none;
@@ -207,7 +253,7 @@ ul.inline-list-logo {
 }
 
 ul.inline-list-logo li{
-  float:left;
+  float: left;
   clear: none;
   width: 230px;
   padding-bottom: 20px;
@@ -232,5 +278,5 @@ ul.inline-list-logo img.liup{
 small.liup{
   color: #8ea608;
   font-size: 15px;
-  margin-top:10px
+  margin-top: 10px
 }
