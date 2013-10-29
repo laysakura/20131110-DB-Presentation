@@ -103,6 +103,13 @@ module.exports = function(grunt) {
 			theme: {
 				files: [ 'css/theme/source/*.scss', 'css/theme/template/*.scss' ],
 				tasks: 'themes'
+			},
+			slides: {
+				files: [ 'slides.md', 'index.html', 'css/theme/*.css' ],
+				tasks: 'slides',
+				options: {
+					livereload: true,
+				},
 			}
 		}
 
@@ -123,6 +130,9 @@ module.exports = function(grunt) {
 
 	// Theme task
 	grunt.registerTask( 'themes', [ 'sass' ] );
+
+	// Slides task
+	grunt.registerTask( 'slides', [ ] );
 
 	// Package presentation to archive
 	grunt.registerTask( 'package', [ 'default', 'zip' ] );

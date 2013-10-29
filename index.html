@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <link rel="stylesheet" href="css/reveal.min.css">
-    <link rel="stylesheet" href="css/theme/default.css" id="theme">
+    <link rel="stylesheet" href="css/theme/zen.css" id="theme">
 
     <!-- For syntax highlighting -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
@@ -51,13 +51,53 @@
       // Full list of configuration options available here:
       // https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
+
+      // Display controls in the bottom right corner
       controls: true,
+
+      // Display a presentation progress bar
       progress: true,
-      history: true,
+
+      // Push each slide change to the browser history
+      history: false,
+
+      // Enable keyboard shortcuts for navigation
+      keyboard: true,
+
+      // Enable touch events for navigation
+      touch: true,
+
+      // Enable the slide overview mode
+      overview: true,
+
+      // Vertical centering of slides
       center: true,
 
-      theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+      // Loop the presentation
+      loop: false,
+
+      // Change the presentation direction to be RTL
+      rtl: false,
+
+      // Number of milliseconds between automatically proceeding to the
+      // next slide, disabled when set to 0, this value can be overwritten
+      // by using a data-autoslide attribute on your slides
+      autoSlide: 0,
+
+      // Enable slide navigation via mouse wheel
+      mouseWheel: false,
+
+      // Transition style
       transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+      // Transition speed
+      transitionSpeed: 'default', // default/fast/slow
+
+      // Transition style for full page backgrounds
+      backgroundTransition: 'default',  // default/linear/none
+
+      // Theme
+      theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
 
       // Parallax scrolling
       // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
@@ -75,38 +115,6 @@
       });
 
     </script>
-
-    <!-- Everything below this point is unrelated to the slideshow -->
-
-    <div class="share-reveal" style="display: none; position: absolute; bottom: 10px; left: 50%; margin-left: -160px; z-index: 20;">
-      <a href="http://twitter.com/share" class="twitter-share-button" data-text="reveal.js - The HTML presentation framework from @hakimel." data-url="http://lab.hakim.se/reveal-js" data-count="small" data-related="hakimel"></a>
-
-      <iframe id="facebook-button" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fapp.hakim.se%2Freveal-js%2F&layout=button_count&show_faces=false&width=93&action=like&font=arial&colorscheme=light&height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:85px; height:24px; position: relative; top: 4px;" allowTransparency="true"></iframe>
-
-      <a href="https://twitter.com/revealjs" class="twitter-follow-button" data-show-count="false" data-dnt="true">Follow @revealjs</a>
-    </div>
-
-    <a class="fork-reveal" style="display: none;" href="https://github.com/hakimel/reveal.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/camo.github.com/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork reveal.js on GitHub"></a>
-
-    <!-- <script> -->
-    <!--   var _gaq = [['_setAccount', 'UA-15240703-1'], ['_trackPageview']]; -->
-    <!--   (function(d, t) { -->
-    <!--   var g = d.createElement(t), -->
-    <!--   s = d.getElementsByTagName(t)[0]; -->
-    <!--   g.async = true; -->
-    <!--   g.src = ('https:' == location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'; -->
-    <!--   s.parentNode.insertBefore(g, s); -->
-    <!--   })(document, 'script'); -->
-    <!-- </script> -->
-
-    <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-
-    <!-- <script> -->
-    <!--   if( !navigator.userAgent.match( /(iphone|android)/gi ) && !!document.querySelector ) { -->
-    <!--   document.querySelector( '.share-reveal' ).style.display = 'block'; -->
-    <!--   document.querySelector( '.fork-reveal' ).style.display = 'block'; -->
-    <!--   } -->
-    <!-- </script> -->
 
   </body>
 </html>

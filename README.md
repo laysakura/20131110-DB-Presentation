@@ -7,7 +7,7 @@
 ```bash
 $ git ls-files
 .gitignore
-Gruntfile.js
+Gruntfile.js    # reloadのために独自編集済み
 README.md
 css/reveal.min.css
 css/theme/default.css
@@ -44,7 +44,7 @@ slides.md
 ```bash
 $ npm install
 $ grunt serve
-$ browser localhost:8000
+$ browser localhost:8000  # Chrome拡張のLiveReloadを有効にすると，ファイル編集毎に勝手にreloadされて便利
 ```
 
 ### Githubにスライドをうpして見れるように
