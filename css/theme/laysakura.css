@@ -77,7 +77,164 @@ a:hover:visited {
  *********************************************/
 .reveal ul li {
     list-style-type : disc;
-    margin: 0.2em 0 0.2em 0;
+    margin          : 0.2em 0 0.2em 0;
+}
+
+/*********************************************
+ * CODES
+ *********************************************/
+pre code {
+    display            : block;
+    padding            : 5px;
+    background-color   : rgba(255, 255, 255, 0.5);
+    color              : #000;
+    font-family        : Courier, monospace, sans-serif;
+    box-shadow       : 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-transition : all 0.3s linear;
+    -moz-transition    : all 0.3s linear;
+    transition         : all 0.3s linear;
+}
+pre code:hover {
+    box-shadow: 0 0 6px rgba(255, 255, 0, 0.6);
+}
+pre .keyword,
+pre .tag,
+pre .css .class,
+pre .css .id,
+pre .lisp .title,
+pre .nginx .title,
+pre .request,
+pre .status,
+pre .clojure .attribute {
+  color: #00A0B0;
+}
+pre .number,
+pre .date {
+  color: #CC333F;
+}
+pre .shebang,
+pre .diff .addition,
+pre .comment,
+pre .java .annotation,
+pre .template_comment,
+pre .pi,
+pre .doctype {
+  color: #45B312;
+}
+
+pre .django .template_tag,
+pre .django .variable,
+pre .django .filter .argument {
+  color: #DCDCDC;
+}
+pre .dos .envvar,
+pre .dos .stream,
+pre .variable,
+pre .apache .sqbracket {
+  color: #EFDCBC;
+}
+pre .dos .flow,
+pre .diff .change,
+pre .python .exception,
+pre .python .built_in,
+pre .literal,
+pre .tex .special {
+  color: #EFEFAF;
+}
+pre .diff .chunk,
+pre .subst {
+  color: #8F8F8F;
+}
+pre .dos .keyword,
+pre .python .decorator,
+pre .title,
+pre .haskell .type,
+pre .diff .header,
+pre .ruby .class .parent,
+pre .apache .tag,
+pre .nginx .built_in,
+pre .tex .command,
+pre .prompt {
+    color: #efef8f;
+}
+pre .dos .winutils,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .string {
+  color: #DCA3A3;
+}
+pre .diff .deletion,
+pre .string,
+pre .tag .value,
+pre .preprocessor,
+pre .built_in,
+pre .sql .aggregate,
+pre .javadoc,
+pre .smalltalk .class,
+pre .smalltalk .localvars,
+pre .smalltalk .array,
+pre .css .rules .value,
+pre .attr_selector,
+pre .pseudo,
+pre .apache .cbracket,
+pre .tex .formula {
+  color: #CC9393;
+}
+pre .coffeescript .javascript,
+pre .javascript .xml,
+pre .tex .formula,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .xml .css,
+pre .xml .cdata {
+  opacity: 0.5;
+}
+
+/*********************************************
+ * TABLES
+ *********************************************/
+.reveal table {
+    border-spacing: 0;
+    margin: 0 auto 0 auto;
+}
+.reveal table th {
+    background-color: #d7523d;
+    opacity: 0.7;
+    color: #fff;
+    text-shadow: none;
+    padding: 0 1em 0 1em;
+}
+.reveal th:first-child {
+    -moz-border-radius: 6px 0 0 0;
+    -webkit-border-radius: 6px 0 0 0;
+    border-radius: 6px 0 0 0;
+}
+.reveal th:last-child {
+    -moz-border-radius: 0 6px 0 0;
+    -webkit-border-radius: 0 6px 0 0;
+    border-radius: 0 6px 0 0;
+}
+.reveal table tbody tr:hover
+{
+    background: rgba(255, 0, 0, 0.1);
+    -webkit-transition: all 0.2s linear;
+    -moz-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+}
+.reveal tbody tr:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 0.4);
+    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+    -moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;
+    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+}
+.reveal tbody tr:nth-child(even) {
+    background-color: rgba(220, 220, 220, 0.4);
+    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+    -moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;
+    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+}
+.reveal td {
+    padding: 0 1em 0 1em;
 }
 
 /*********************************************
