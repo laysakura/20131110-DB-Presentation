@@ -86,7 +86,20 @@ a:hover:visited {
 /*********************************************
  * CODES
  *********************************************/
-pre code {
+.reveal code {
+    font-size        : 90%;
+    margin           : 0 2px;
+    padding          : 0 5px;
+    border           : 1px solid rgba(0, 0, 0, 0.08);
+    background-color : rgba(0, 0, 0, 0.03);
+    border-radius    : 6px;
+    font-family      : 'Monaco', 'Consolas', 'Courier New', Courier, monospace, sans-serif;
+}
+.reveal pre code {
+    padding : 0 auto;
+    margin  : 0 auto;
+    border  : none;
+
     display            : block;
     padding            : 5px;
     background-color   : rgba(255, 255, 255, 0.5);
@@ -124,6 +137,18 @@ pre .pi,
 pre .doctype {
   color: #45B312;
 }
+pre .dos .keyword,
+pre .python .decorator,
+pre .title,
+pre .haskell .type,
+pre .diff .header,
+pre .ruby .class .parent,
+pre .apache .tag,
+pre .nginx .built_in,
+pre .tex .command,
+pre .prompt {
+    color: #F38733;
+}
 
 pre .django .template_tag,
 pre .django .variable,
@@ -147,18 +172,6 @@ pre .tex .special {
 pre .diff .chunk,
 pre .subst {
   color: #8F8F8F;
-}
-pre .dos .keyword,
-pre .python .decorator,
-pre .title,
-pre .haskell .type,
-pre .diff .header,
-pre .ruby .class .parent,
-pre .apache .tag,
-pre .nginx .built_in,
-pre .tex .command,
-pre .prompt {
-    color: #efef8f;
 }
 pre .dos .winutils,
 pre .ruby .symbol,
