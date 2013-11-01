@@ -74,17 +74,46 @@
 
 # SQL
 
+要点: 基本の5操作覚えれば大体書けるようになる
+
+---
+
+## 目標: このくらいのクエリはさらっと(書き|読み)たい
+
+```sql
+-- TPC-H Query#10
+select
+	c_custkey, c_name,
+	sum(l_extendedprice * (1 - l_discount)) as revenue,
+	c_acctbal, n_name, c_address, c_phone, c_comment
+from
+	customer, orders, lineitem, nation
+where
+	c_custkey = o_custkey
+	and l_orderkey = o_orderkey
+	and o_orderdate >= date ':1'
+	and o_orderdate < date ':1' + interval '3' month
+	and l_returnflag = 'R'
+	and c_nationkey = n_nationkey
+group by
+	c_custkey, c_name, c_acctbal, c_phone, n_name, c_address, c_comment
+order by
+	revenue desc;
+```
+
+**関係代数基本の5操作**の組み合わせでしかない
+
 ---
 
 ## 関係代数基本の5操作
 
-| 名前        | 意味       | SQL            |
-|-------------|------------|----------------|
-| selection   | 行絞り込み | WHERE          |
-| projection  | 列絞り込み | (カラム名指定) |
-| sort        | ソート     | ORDER BY       |
-| aggregation | 集約       | GROUP BY       |
-| join        | 結合       | JOIN           |
+| 名前        | 意味       | SQL                               |
+|-------------|------------|-----------------------------------|
+| selection   | 行絞り込み | WHERE                             |
+| projection  | 列絞り込み | (カラム名指定)                    |
+| sort        | ソート     | ORDER BY                          |
+| aggregation | 集約       | GROUP BY, count(\*), avg(\*), ... |
+| join        | 結合       | JOIN, WHERE条件                   |
 
 ---
 
@@ -199,11 +228,153 @@ select * from Giants order by age;  -- 年齢でソート
 
 ---
 
+## aggregation - 集約関数
+
+| id | name | age |
+|----|------|-----|
+|  1 | 仁志 |  25 |
+|  2 | 清水 |  18 |
+|  3 | 高橋 |  31 |
+|  4 | 松井 |  33 |
+|  5 | 清原 |  22 |
+|  6 | 江藤 |  21 |
+|  7 | 二岡 |  19 |
+|  8 | 村田 |  63 |
+|  9 | 上原 |  28 |
+
+```sql
+select avg(age) from Giants;  -- 平均年齢
+```
 
 
+## aggregation - 集約関数
+
+```sql
+select avg(age) from Giants;  -- 平均年齢
+```
+
+| avg(age)    |
+|-------------|
+|       28.88 |
+
+---
+
+## aggregation - グループ集約
+
+```sql
+select unit, avg(age) from Member group by unit;  -- ユニットごとの平均年齢
+```
+
+| id | name   | unit | age |
+|----|--------|------|-----|
+|  1 | まゆゆ | AKB  |  23 |
+|  2 | 松井   | SKE  |  18 |
+|  3 | 前田   | AKB  |  27 |
 
 
+## aggregation - グループ集約
 
+```sql
+select unit, avg(age) from Member group by unit;  -- ユニットごとの平均年齢
+```
+
+| unit | age |
+|------|-----|
+| AKB  |  25 |
+| SKE  |  18 |
+
+---
+
+## join - 結合
+
+```sql
+select Member.name, Fan.name, Fan.age from Member, Fan
+where Fan.oshimen = Member.name; -- 各メンバーは誰に愛されているか
+```
+
+*Member*
+
+| id | name   | unit | age |
+|----|--------|------|-----|
+|  1 | まゆゆ | AKB  |  23 |
+|  2 | 松井   | SKE  |  18 |
+|  3 | 前田   | AKB  |  27 |
+
+*Fan*
+
+| id | name      | oshimen |
+|----|-----------|---------|
+|  1 | ブヒブヒ1 | 松井    |
+|  2 | ブヒブヒ2 | まゆゆ  |
+|  3 | ブヒブヒ3 | 松井    |
+
+
+## join - 結合
+
+```sql
+select Member.name, Fan.name, Fan.age from Member, Fan
+where Fan.oshimen = Member.name; -- 各メンバーは誰に愛されているか
+```
+
+*結果*
+
+| Member.name | Fan.name  | Fan.age |
+|-------------|-----------|---------|
+| 松井        | ブヒブヒ1 |      25 |
+| 松井        | ブヒブヒ3 |      22 |
+| まゆゆ      | ブヒブヒ2 |      38 |
+
+---
+
+## 再掲: TPC-Hクエリ
+
+selection, projection, sort, aggregation, join はどこかな?
+
+```sql
+-- TPC-H Query#10
+select
+	c_custkey, c_name,
+	sum(l_extendedprice * (1 - l_discount)) as revenue,
+	c_acctbal, n_name, c_address, c_phone, c_comment
+from
+	customer, orders, lineitem, nation
+where
+	c_custkey = o_custkey
+	and l_orderkey = o_orderkey
+	and o_orderdate >= date ':1'
+	and o_orderdate < date ':1' + interval '3' month
+	and l_returnflag = 'R'
+	and c_nationkey = n_nationkey
+group by
+	c_custkey, c_name, c_acctbal, c_phone, n_name, c_address, c_comment
+order by
+	revenue desc;
+```
+
+---
+
+## 自分でSQL書けるようになろう
+
+- [SQLZOO](http://sqlzoo.net/wiki/Main_Page)
+  - クイズ形式でSQLの練習ができる．超おすすめ
+  - 「欲しい結果を得るためのクエリ」は書けるようになる
+  - でも，**速いクエリ**を書けるようなるのは別の話
+
+---
+
+## 遅いクエリ=クソクエリ
+- 結果が出れば良いってもんじゃない
+  - クソクエリcommitする奴=サービス運用の敵=火炙り
+- どうすれば速いクエリ書けるようになる??
+  - (色々大事だけど)まずは**インデックス**を使いこなそう
+
+---
+
+# インデックス
+
+要約: インデックスのデータ構造と使われどころを抑えよう
+
+---
 
 
 ## 今日やらなかった(けど大事な)こと
