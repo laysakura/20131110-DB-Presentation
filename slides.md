@@ -34,16 +34,17 @@
   - 次のバージョン番号を出す (1.0.2 -> 1.0.3)
 - CPANモジュール: [Search::Fulltext](http://search.cpan.org/~laysakura/Search-Fulltext/lib/Search/Fulltext.pm), [Search::Fulltext::Tokenizer::MeCab](http://search.cpan.org/~laysakura/Search-Fulltext-Tokenizer-MeCab/lib/Search/Fulltext/Tokenizer/MeCab.pm)
   - らくちん日本語全文検索
-  - [ブログ記事](http://laysakura.hateblo.jp/entry/20131011/1381477266)が177ブクマ(2013/10/30), はてなブログ人気エントリー入り(嬉しい)
+  - [ブログ記事](http://laysakura.hateblo.jp/entry/20131011/1381477266)が177ブクマ(2013/11/02現在), はてなブログ人気エントリー入り(嬉しい)
 
 ---
 
 ## 今日やること
 
+硬派にやります
+
 - SQL
 - インデックス
 - トランザクション
-- 分散環境でのDB活用(触り)
 
 ---
 
@@ -63,8 +64,7 @@
 
 ## RDBMSの嬉しさ
 
-- でかい，楽，速い，安心
-  - メモリはみ出すサイズのデータ扱える
+- 楽，速い，安心
   - **SQL**でらくちんデータ検索
   - **インデックス**で高速データアクセス
   - **トランザクション**で大事なデータを保護
@@ -372,7 +372,7 @@ order by
 
 # インデックス
 
-要約: インデックスのデータ構造と使われどころを抑えよう
+要点: インデックスのデータ構造と使われどころを抑えよう
 
 ---
 
@@ -426,10 +426,11 @@ scores = [300, 500, 200, 15000, 15, ..., 20000, 10, ...]
 scores = [10, 15, 200, 300, 500, ..., 15000, 20000, ...]
 ```
 
+---
 
 ## 老婆心
 
-- 万が一 *O(log n)* とかの話がわからない場合
+- 万が一 `O(log n)` とかの話がわからない場合
   - 今すぐアルゴリズムとデータ構造を勉強しましょう
   - 最低限を知らないで「アプリ作れればいいや」だけでは・・・
 
@@ -446,7 +447,7 @@ scores = [10, 15, 200, 300, 500, ..., 15000, 20000, ...]
 
 ---
 
-## メモリとディスクで何が違う??
+## (おまけ1)メモリとディスクの違い
 
 *(ディスク ≒ ハードディスクの話)*
 
@@ -456,33 +457,336 @@ scores = [10, 15, 200, 300, 500, ..., 15000, 20000, ...]
   - リスト要素を読む => 飛び飛びアクセス = **ランダムアクセス**
 
 - ディスクはランダムアクセスめっちゃ遅い(HDDの物理的構造の話)
+- ディスクにはある程度のサイズ一気に**ブロックアクセス**するのが基本
+  - ブロックサイズ ≒ セクタサイズの倍数: 4KB, 16KB, 32KB, ...
 
 ---
 
+## (おまけ2)RDBMSの高速化 ≒ ディスクアクセスの最小化
+
+- 覚えておくべきコスト感覚(スループットベース):
+  - メモリ(DRAM): **CPUの1000倍遅い**
+  - ディスク(HDD): **メモリの1000倍遅い**
+  - (ネットワーク: メモリと同じくらい，ただし近い将来メモリより速いはず)
+
+**少なくとも古典的には標題が成り立つ**
+
+---
+
+## B+Tree
+
+<p style="font-size: 60%">([Jeffrey D. Ullman 氏のサイト](http://infolab.stanford.edu/~ullman/dbsi/win98/hw2.html) より引用)</p>
+![B+Tree](img/B+tree.gif "B+Tree")
+
+- ノード = ディスクブロック (1ノードが1回のブロックアクセスで読まれる)
 
 
+## B+Tree
 
-## 今日やらなかった(けど大事な)こと
+<p style="font-size: 60%">([Jeffrey D. Ullman 氏のサイト](http://infolab.stanford.edu/~ullman/dbsi/win98/hw2.html) より引用)</p>
+![B+Tree](img/B+tree.gif "B+Tree")
 
-今後の勉強の指針にしてください(優先度順)
+- 末端ノード: インデックスの値 => 主キーの対応
+  - 左下のノードは，`2,3,5` がインデックスの値，矢印が主キーを指している
 
-- DBD, JDBC, (他の言語も大体同じ)
-  - プレースホルダ
-- 発展的なインデックス
-  - マルチカラム
-  - クラスタインデックス
-  - ハッシュインデックス
-- クエリ実行計画, クエリ最適化器
-- テーブル設計
-  - 正規化，非正規化
-- OR-mapper(プラグインは?)
-- column-oriented
-- KVS (NoSQL)
-  - redis, mongo
-- 分散
-  - 分散ネイティブなRDBMS
-    - MySQL Cluster
-    - Oracle, DB2, ... などの商用DB
+
+## B+Tree
+
+<p style="font-size: 60%">([Jeffrey D. Ullman 氏のサイト](http://infolab.stanford.edu/~ullman/dbsi/win98/hw2.html) より引用)</p>
+![B+Tree](img/B+tree.gif "B+Tree")
+
+- **末端ノードのインデックス値はソートされている**
+- 末端ノード同士はリンクされている
+
+
+## B+Tree
+
+<p style="font-size: 60%">([Jeffrey D. Ullman 氏のサイト](http://infolab.stanford.edu/~ullman/dbsi/win98/hw2.html) より引用)</p>
+![B+Tree](img/B+tree.gif "B+Tree")
+
+- 中間ノード: インデックスの値を探すための目印
+
+---
+
+## B+Tree使用例1: 一致検索
+
+![B+Tree](img/B+tree.gif "B+Tree")
+
+```sql
+select * from User where score=29;
+```
+
+- 図: `User.score` インデックスのB+Tree
+- `score=29`のレコード(の主キー)を探せ!
+
+
+## B+Tree使用例1: 一致検索
+
+![B+Tree](img/B+tree.gif "B+Tree")
+
+```sql
+select * from User where score=29;
+```
+
+(1) ルートノードからスタートし，`13`と`29`を比較 => `13`より大きいので右の子ノードへ
+
+
+## B+Tree使用例1: 一致検索
+
+![B+Tree](img/B+tree.gif "B+Tree")
+
+```sql
+select * from User where score=29;
+```
+
+(2) `23`より大きく`31`より小さいので，左から2番目の子ノードへ
+
+
+## B+Tree使用例1: 一致検索
+
+![B+Tree](img/B+tree.gif "B+Tree")
+
+```sql
+select * from User where score=29;
+```
+
+(3) `29`が見つかり，それとペアの主キーを元にレコードを取ってこれる
+
+---
+
+## B+Tree使用例2: 範囲検索
+
+![B+Tree](img/B+tree.gif "B+Tree")
+
+```sql
+select * from User where score >= 29 and score <= 37;
+```
+
+(1) `29`が見つかるとこまでは先程と同様
+
+
+## B+Tree使用例2: 範囲検索
+
+![B+Tree](img/B+tree.gif "B+Tree")
+
+```sql
+select * from User where score >= 29 and score <= 37;
+```
+
+(2) `29`のあるノードにはもうインデックス値がない => 隣の末端ノードのリンクを辿る
+
+
+## B+Tree使用例2: 範囲検索
+
+![B+Tree](img/B+tree.gif "B+Tree")
+
+```sql
+select * from User where score >= 29 and score <= 37;
+```
+
+(3) `37`が見つかったところまででストップし，`29,31,37`に対応する主キーからレコードを取る
+
+---
+
+## インデックスの使われどころ
+
+- 先の2例の selection のみならず...
+- **sort, aggregation, joinにも使われる**
+- **適切にインデックスを貼ると，様々な処理が高速化する**
+  - 宿題1: `order by key`, `group by key`, `join A.key1 on B.key2` のそれぞれで，keyにインデックスがあるときとないときの速度差を見てみる
+  - 宿題2: sort, aggregation, join で，インデックスがないときとあるときに利用可能なアルゴリズムを想像&調べてみる
+
+---
+
+## インデックスの貼りすぎに注意
+
+- 「インデックスすごい!もう全部のカラムに貼っちゃう!!」
+  - 張っ倒される
+
+- インデックスのデメリット
+  - B+Tree分のディスク容量を使う
+  - `insert`は遅くなる
+    - ソート済みリストにソート順を崩さず要素を追加するときのコスト: `O(log n)`
+    - ただリストに要素を追加するときのコスト: `O(1)`
+
+- インデックスを貼るカラムを判断できる => 一人前
+
+---
+
+# トランザクション
+
+要点: 並列処理の '怖さ' を知ろう
+
+---
+
+## トランザクションとは
+
+- 原義: 処理・仕事のひとまとまり
+- 複数のクエリを '一度に' 実行するための機能がRDBMSにおけるトランザクション
+
+---
+
+## トランザクションが必要となる例
+
+```sql
+-- ユーザ登録リクエストをDBに反映
+insert into User (name, age) values ('たかし', 29);
+ 
+ 
+ 
+-- ユーザ数をサービス統計に反映
+update Service set num_users = num_users + 1;
+```
+
+
+## トランザクションが必要となる例
+
+```sql
+-- ユーザ登録リクエストをDBに反映
+insert into User (name, age) values ('たかし', 29);
+
+-- ここで外から count(*) from User と Service.num_users が参照されると?
+-- => count(*) from User > Service.num_users
+
+-- ユーザ数をサービス統計に反映
+update Service set num_users = num_users + 1;
+```
+
+`User`テーブルと`Service`テーブルの整合性が崩れている
+
+---
+
+## トランザクションで整合性を保つ
+
+```sql
+BEGIN TRANSACTION;  -- トランザクションの開始
+
+-- ユーザ登録リクエストをDBに反映
+insert into User (name, age) values ('たかし', 29);
+
+-- トランザクション中は，外から「この状態」は見られない!
+-- (たかしユーザが追加されたことが観測できるのはCOMMIT以後)
+
+-- ユーザ数をサービス統計に反映
+update Service set num_users = num_users + 1;
+
+COMMIT;  -- トランザクションの終了
+```
+
+---
+
+## トランザクションのデモ1
+
+```sql
+client1> select * from User;
+
+client2> insert into User (name, age) values ('たかし', 29);
+
+client1> select * from User;  -- たかしくんは追加されてる
+
+client2> BEGIN TRANSACTION;
+client2> insert into User (name, age) values ('みか', 27);
+
+client1> select * from User;  -- みかちゃんがいない!!
+
+client2> COMMIT;
+
+client1> select * from User;  -- みかちゃんが見えるように
+```
+
+---
+
+## COMMIT or  ABORT !!
+
+<p style="font-size: 60%">(これ書いてる時はハロウィンでした)</p>
+
+- トランザクション発行(`BEGIN TRANSACTION`)の後にやれることは2通り
+  - `COMMIT`: トランザクション中の処理をDBに反映
+  - `ABORT`: トランザクション中の処理をなかったことに
+
+---
+
+## トランザクションのデモ2
+
+```sql
+client1> select * from User;
+
+client2> insert into User (name, age) values ('たかし', 29);
+
+client1> select * from User;  -- たかしくんは追加されてる
+
+client2> BEGIN TRANSACTION;
+client2> insert into User (name, age) values ('みか', 27);
+
+client1> select * from User;  -- みかちゃんがいない!!
+
+-- ここまでデモ1と同じ
+
+client2> ABORT;
+
+client1> select * from User;  -- みかちゃんはなかったことに・・・
+```
+
+---
+
+## TIPS: 暗黙のトランザクション
+
+- `insert`とか`update`とかするとき，「暗黙のトランザクション」が発行されている
+  - `insert`で100byteのレコードを挿入する際，60byte目が挿入された中途半端な状態は他のクライアントから観測できない
+
+- トランザクション貼るのは重たい処理
+  - pthread触った人なら分かるかも
+
+- 暗黙のトランザクションよりも自前トランザクションを使ったほうが速いことも
+
+---
+
+## 暗黙のトランザクションが遅いデモ
+
+```perl
+for (my $i = 0; $i < 100000; ++$i) {
+    $dbh->do('insert into T1 values(777)');  # トランザクションが100000回 => 遅い
+}
+
+###
+$dbh->do('BEGIN TRANSACTION');
+for (my $i = 0; $i < 100000; ++$i) {
+    $dbh->do('insert into T2 values(777)');  # トランザクションは1回 => 速い
+}
+$dbh->do('COMMIT');
+```
+
+---
+
+## トランザクションのACID性
+
+RDBMSのトランザクションは**ACID**性を満たすのが普通
+
+- Atomicity, Consistency, Isolation, Durability
+- それぞれちゃんと説明できるようになってるのが望ましい
+- [Wikipediaの記事](http://ja.wikipedia.org/wiki/ACID_%28%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E7%A7%91%E5%AD%A6%29)がそこそこ分かりやすい
+
+---
+
+# 〆
+
+---
+
+## 今日やったこと
+
+- SQL(楽さ)
+  - selection, projection, sort, aggregation, join
+  - 複雑なクエリも怖くない
+
+- インデックス(速さ)
+  - 検索を速くする
+  - B+Tree, なぜ使われるか
+  - インデックス貼りすぎの弊害
+
+- トランザクション(安心さ)
+  - 整合性を保つ
+  - 暗黙のトランザクション
+  - ACID
 
 ---
 
@@ -492,7 +796,6 @@ scores = [10, 15, 200, 300, 500, ..., 15000, 20000, ...]
   - 例: `$dbh->do()` 3回で得ていた結果が1回で得られるように
   - DBにやれることはDBにやらせたほうが大抵速い
 
----
 
 ## 今日のインプット -> アウトプット例
 
@@ -501,7 +804,6 @@ scores = [10, 15, 200, 300, 500, ..., 15000, 20000, ...]
   - ヒント: `EXPLAIN` コマンド
     - [漢(オトコ)のコンピュータ道: MySQLのEXPLAINを徹底解説!!](http://nippondanji.blogspot.jp/2009/03/mysqlexplain.html)
 
----
 
 ## 今日のインプット -> アウトプット例
 
@@ -512,17 +814,130 @@ scores = [10, 15, 200, 300, 500, ..., 15000, 20000, ...]
 
 ---
 
-## お勉強
+## 今日やらなかった(けど大事な)こと
 
-### SQL
-- [SQLZOO](http://sqlzoo.net/wiki/Main_Page)
-  - 実際に動しつつ，クイズ形式でSQLの練習ができる．超おすすめ．
+今後の勉強の指針にしてください(優先度順)
+
+↓
 
 
-### 書籍
+## 分散環境でのRDBMS利用
 
-読んだことがある者だけ紹介
+- レプリケーション
+  - 同期レプリケーション
+  - 準同期レプリケーション
+  - 非同期レプリケーション
+- パーティショニング
+  - ハッシュパーティション
+  - レンジパーティション
 
-- Database Management Systems 3rd ed.
-- Webエンジニアのためのデータベース技術[実践]入門
-- SQLアンチパターン
+
+## プログラミング言語からのDB使用
+
+- DBIとかJDBCとか
+  - どの言語もだいたい同じインターフェイスだからDBIやればいい
+- プレースホルダ
+- SQLインジェクション対策
+- OR-mapper
+  - DBIx
+  - <p style="font-size: 60%">個人的には嫌いです(パフォーマンス出んやろ)</p>
+
+
+## RDBMSの性能を出し切るために
+
+- クエリ実行計画, クエリ実行計画ツリー
+- クエリ最適化
+
+
+## テーブル設計
+
+<p style="font-size: 60%">(俺も勉強しなきゃ・・・)</p>
+
+- 正規化，非正規化
+  - 大事
+- ER図
+  - 必要に迫られたら覚えればいい(と思う)
+
+
+## RDBMS障害復旧機能
+
+- 単ノード
+  - ログを使った復旧
+- 複数ノード
+  - active-active 構成
+  - active-slave 構成
+  - バックアップとしてのレプリケーション
+
+
+## 発展的なインデックス
+
+- ハッシュインデックス
+- マルチカラムインデックス
+- クラスタインデックス
+
+
+## 「普通」じゃないデータベース
+
+- 列指向RDBMS
+- KVS (NoSQL)
+  - Redis, MongoDB
+- インメモリDB
+
+---
+
+## オススメの勉強法
+
+これまた優先度順番
+
+↓
+
+
+## 基礎知識を身につける
+
+[『Webエンジニアのための データベース技術[実践]入門』](http://www.amazon.co.jp/Web%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AE-%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E6%8A%80%E8%A1%93-Software-Design-plus/dp/4774150207)
+
+- 正に我々が読むべき良書
+- 分散環境での運用方法はこの本が一番かも
+
+
+## 開発中に使ってみる
+
+- 何しろ使って覚えるのは重要
+  - ただし，知識を身につけないまま「とりあえず動く」使い方だけしててもあんまり意味はない
+- こういう場(ハッカソン)を利用してどんどん慣れていきましょう
+- `$dbh`, `$sth` とお友達になろう
+
+
+## 複雑なSQLも(書く|読む)
+
+[SQLZOO](http://sqlzoo.net/wiki/Main_Page)
+
+- クイズ形式でSQLの練習ができる．超おすすめ
+  - ただし，インデックスやクエリ実行計画を意識した「速いクエリ」は書けるようにはならないので別途勉強が必要
+
+
+## SQLあるあるを身につける
+
+[『SQLアンチパターン』](http://www.amazon.co.jp/SQL%E3%82%A2%E3%83%B3%E3%83%81%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3-Bill-Karwin/dp/4873115892)
+
+- 「やっちゃ駄目なこと集」だけど，「本当はこうすりゃいいよね」話も同時に掲載されていて深い勉強になる
+- 結構DB使ったプログラミング歴が長くないと共感でき切れないかも・・・
+  - 自分も腑に落ちたのは半分くらいでした・・・
+
+
+## RDBMSの速度を最大限引き出す
+
+インフラ屋になりたいなら必須の内容
+
+- クエリ最適化の理論を学ぶ
+  - (自分の知る限り)日本語ソースでオススメなのはない
+  - [『Database Management Systems, 3rd ed.』](http://www.amazon.co.jp/Database-Management-Systems-Third-Edition-ebook/dp/B002K8Q9PA/ref=tmm_kin_title_0) の Chapter 12-15
+    - *Kindle 価格: ￥13,586*
+    ・・・・高すぎンゴ・・・
+    - [スライド集](http://pages.cs.wisc.edu/~dbbook/openAccess/thirdEdition/slides/slides3ed.html)もあるので，(かいつまみすぎな気はするが)それを利用する手も
+
+---
+
+# 以上
+
+ありがとうございました!
