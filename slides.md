@@ -659,7 +659,7 @@ update Service set num_users = num_users + 1;
 ## トランザクションで整合性を保つ
 
 ```sql
-BEGIN TRANSACTION;  -- トランザクションの開始
+BEGIN;  -- トランザクションの開始
 
 -- ユーザ登録リクエストをDBに反映
 insert into User (name, age) values ('たかし', 29);
@@ -684,7 +684,7 @@ client2> insert into User (name, age) values ('たかし', 29);
 
 client1> select * from User;  -- たかしくんは追加されてる
 
-client2> BEGIN TRANSACTION;
+client2> BEGIN;
 client2> insert into User (name, age) values ('みか', 27);
 
 client1> select * from User;  -- みかちゃんがいない!!
@@ -696,13 +696,13 @@ client1> select * from User;  -- みかちゃんが見えるように
 
 ---
 
-## COMMIT or  ABORT !!
+## COMMIT or  ROLLBACK !!
 
 <p style="font-size: 60%">(これ書いてる時はハロウィンでした)</p>
 
-- トランザクション発行(`BEGIN TRANSACTION`)の後にやれることは2通り
+- トランザクション発行(`BEGIN`)の後にやれることは2通り
   - `COMMIT`: トランザクション中の処理をDBに反映
-  - `ABORT`: トランザクション中の処理をなかったことに
+  - `ROLLBACK`: トランザクション中の処理をなかったことに
 
 ---
 
@@ -715,14 +715,14 @@ client2> insert into User (name, age) values ('たかし', 29);
 
 client1> select * from User;  -- たかしくんは追加されてる
 
-client2> BEGIN TRANSACTION;
+client2> BEGIN;
 client2> insert into User (name, age) values ('みか', 27);
 
 client1> select * from User;  -- みかちゃんがいない!!
 
 -- ここまでデモ1と同じ
 
-client2> ABORT;
+client2> ROLLBACK;
 
 client1> select * from User;  -- みかちゃんはなかったことに・・・
 ```
@@ -749,7 +749,7 @@ for (my $i = 0; $i < 100000; ++$i) {
 }
 
 ###
-$dbh->do('BEGIN TRANSACTION');
+$dbh->do('BEGIN');
 for (my $i = 0; $i < 100000; ++$i) {
     $dbh->do('insert into T2 values(777)');  # トランザクションは1回 => 速い
 }
